@@ -1,17 +1,19 @@
 services:
-  # 1. This deploys your Python Backend (main.py)
+  # 1. BACKEND (Python API)
   - type: web
     name: demand-api
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn main:app # This assumes your Flask/FastAPI app is in main.py
+    startCommand: gunicorn main:app
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.0
 
-  # 2. This deploys your Frontend folder
+  # 2. FRONTEND (React App)
   - type: web
     name: demand-frontend
     env: static
-    buildCommand: npm install && npm run build
-    publishPath: ./frontend/dist # Change this to your frontend build folder path
+    # Tell Render to go inside the frontend folder
+    buildCommand: cd frontend && npm install && npm run build
+    # Point to the folder created by the build (Vite uses 'dist', Create React App uses 'build')
+    publishPath: ./frontend/dist
