@@ -2,6 +2,7 @@ services:
   # 1. BACKEND (Python API)
   - type: web
     name: demand-api
+    plan: free  # <--- ADD THIS LINE
     env: python
     buildCommand: cd backend && pip install -r requirements.txt
     startCommand: cd backend && gunicorn main:app
@@ -10,8 +11,9 @@ services:
         value: 3.10.0
 
   # 2. FRONTEND (React App)
-  - type: web  # Changed from 'static' to 'web'
+  - type: web
     name: demand-frontend
-    env: static  # Added this line to tell Render it's a static site
+    plan: free  # <--- ADD THIS LINE
+    env: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: ./frontend/dist
