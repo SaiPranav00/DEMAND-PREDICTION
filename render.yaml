@@ -1,0 +1,17 @@
+services:
+  # 1. This deploys your Python Backend (main.py)
+  - type: web
+    name: demand-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn main:app # This assumes your Flask/FastAPI app is in main.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+
+  # 2. This deploys your Frontend folder
+  - type: web
+    name: demand-frontend
+    env: static
+    buildCommand: npm install && npm run build
+    publishPath: ./frontend/dist # Change this to your frontend build folder path
