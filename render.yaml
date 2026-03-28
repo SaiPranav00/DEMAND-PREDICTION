@@ -3,17 +3,18 @@ services:
   - type: web
     name: demand-api
     env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn main:app
+    # This tells Render to go into the backend folder first
+    buildCommand: cd backend && pip install -r requirements.txt
+    # This tells Gunicorn to look inside the backend folder for main.py
+    startCommand: cd backend && gunicorn main:app
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.0
 
   # 2. FRONTEND (React App)
-  - type: web
+  - type: static
     name: demand-frontend
-    env: static
-    # Tell Render to go inside the frontend folder
+    # This goes into the frontend folder and builds it
     buildCommand: cd frontend && npm install && npm run build
-    # Point to the folder created by the build (Vite uses 'dist', Create React App uses 'build')
-    publishPath: ./frontend/dist
+    # Point to the static files inside the frontend's build folder
+    staticPublishPath: ./frontend/dist
