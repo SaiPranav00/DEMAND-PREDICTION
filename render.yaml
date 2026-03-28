@@ -2,7 +2,7 @@ services:
   # 1. BACKEND (Python API)
   - type: web
     name: demand-api
-    plan: free  # <--- ADD THIS LINE
+    plan: free
     env: python
     buildCommand: cd backend && pip install -r requirements.txt
     startCommand: cd backend && gunicorn main:app
@@ -13,7 +13,6 @@ services:
   # 2. FRONTEND (React App)
   - type: web
     name: demand-frontend
-    plan: free  # <--- ADD THIS LINE
     env: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: ./frontend/dist
